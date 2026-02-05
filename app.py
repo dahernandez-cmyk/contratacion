@@ -1,57 +1,80 @@
 import streamlit as st
 from docxtpl import DocxTemplate
 import io
+import os
+import subprocess
 
-st.set_page_config(page_title="Otrosí Habeas Data", layout="centered")
+st.set_page_config(page_title="Generador de Documentos 2026", page_icon="📄")
 
-st.title("📄 Otrosí Autorización Habeas Data")
-st.write("Sube tu plantilla y completa los datos.")
+st.title("📄 Generador de Documentos (Word & PDF)")
+st.info("Sube una plantilla .docx con etiquetas tipo {{ nombre_colaborador }}")
 
-# 1. Cargar la plantilla
-uploaded_file = st.file_uploader("Elige tu archivo Word (.docx)", type=["docx"])
+# 1. Cargador de archivos
+uploaded_file = st.file_uploader("Sube tu plantilla Word", type=["docx"])
 
 if uploaded_file:
-    # Leer la plantilla desde el archivo subido
-    doc = DocxTemplate(uploaded_file)
-    
-    # Obtener las variables de la plantilla (opcional, pero ayuda al usuario)
-    st.info("Asegúrate de que tu Word tenga etiquetas como `{{ nombre_colaborador }}`")
-    
-    with st.form("datos_formulario"):
-        st.subheader("Datos del Colaborador")
-        nombre = st.text_input("Nombre del Colaborador")
-        cedula = st.text_input("Cédula o ID")
-        cargo = st.text_input("Cargo")
-        fecha_contrato = st.text_input("Fecha Contrato")
+    # Formulario de datos
+    with st.form("datos"):
+        col1, col2 = st.columns(2)
+        with col1:
+            nombre = st.text_input("Nombre del Colaborador")
+            cedula = st.text_input("Cédula/ID")
+        with col2:
+            cargo = st.text_input("Cargo")
+            fecha = st.date_input("Fecha del documento")
         
-        # Botón para procesar
-        submit = st.form_submit_button("Generar Documento")
+        submit = st.form_submit_button("Procesar Documento")
 
     if submit:
-        if nombre and cedula:
-            # 2. Definir el contexto para reemplazar
+        if not nombre:
+            st.error("El nombre es obligatorio.")
+        else:
+            # 2. Generar el Word en memoria
+            doc = DocxTemplate(uploaded_file)
             contexto = {
                 "nombre_colaborador": nombre,
                 "cedula": cedula,
                 "cargo": cargo,
-                "fecha_contrato": fecha_contrato
+                "fecha": fecha.strftime("%d/%m/%Y")
             }
-            
-            # 3. Renderizar cambios
             doc.render(contexto)
             
-            # 4. Guardar en memoria para descarga
-            output = io.BytesIO()
-            doc.save(output)
-            output.seek(0)
-            
-            st.success("✅ ¡Documento generado con éxito!")
-            st.download_button(
-                label="📥 Descargar archivo personalizado",
-                data=output,
-                file_name=f"Documento_{nombre}.docx",
-                mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-            )
-        else:
-            st.error("Por favor, completa al menos el nombre y la cédula.")
+            # Guardar temporalmente para Word y conversión
+            nombre_temp_docx = f"temp_{nombre}.docx"
+            doc.save(nombre_temp_docx)
 
+            # --- SECCIÓN DE DESCARGA WORD ---
+            with open(nombre_temp_docx, "rb") as f:
+                st.download_button(
+                    label="📥 Descargar en Word",
+                    data=f,
+                    file_name=f"Documento_{nombre}.docx",
+                    mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                )
+
+            # --- SECCIÓN DE CONVERSIÓN A PDF ---
+            try:
+                st.write("Generando PDF... por favor espera.")
+                # Comando para LibreOffice (Funciona en Streamlit Cloud con el archivo packages.txt)
+                subprocess.run(
+                    ['libreoffice', '--headless', '--convert-to', 'pdf', nombre_temp_docx],
+                    check=True
+                )
+                
+                nombre_temp_pdf = nombre_temp_docx.replace(".docx", ".pdf")
+                
+                if os.path.exists(nombre_temp_pdf):
+                    with open(nombre_temp_pdf, "rb") as pdf_file:
+                        st.download_button(
+                            label="📥 Descargar en PDF",
+                            data=pdf_file,
+                            file_name=f"Documento_{nombre}.pdf",
+                            mime="application/pdf"
+                        )
+                    # Limpieza de archivos temporales
+                    os.remove(nombre_temp_docx)
+                    os.remove(nombre_temp_pdf)
+                
+            except Exception as e:
+                st.error(f"Error al generar PDF: {e}")
+                st.warning("Nota: La descarga PDF requiere LibreOffice instalado en el sistema.")
