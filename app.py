@@ -22,6 +22,7 @@ if uploaded_file:
         nombre = st.text_input("Nombre del Colaborador")
         cedula = st.text_input("Cédula o ID")
         cargo = st.text_input("Cargo")
+        fecha_contrato = st.text_input("Fecha Contrato")
         
         # Botón para procesar
         submit = st.form_submit_button("Generar Documento")
@@ -33,7 +34,7 @@ if uploaded_file:
                 "nombre_colaborador": nombre,
                 "cedula": cedula,
                 "cargo": cargo,
-                "fecha_hoy": "05 de febrero de 2026"
+                "fecha_contrato": fecha_contrato
             }
             
             # 3. Renderizar cambios
