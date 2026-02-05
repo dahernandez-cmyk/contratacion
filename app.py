@@ -54,3 +54,4 @@ if uploaded_file:
             )
         else:
             st.error("Por favor, completa al menos el nombre y la cédula.")
+
