@@ -4,7 +4,7 @@ import os
 import subprocess
 import tempfile
 
-st.set_page_config(page_title="Generador 2026", page_icon="📄")
+st.set_page_config(page_title="Otrosí Habeas Data", page_icon="📄")
 
 # Inicializar estados para que los botones no desaparezcan
 if 'docx_ready' not in st.session_state:
@@ -14,8 +14,8 @@ if 'pdf_ready' not in st.session_state:
 if 'file_name' not in st.session_state:
     st.session_state.file_name = ""
 
-st.title("📄 Generador Pro: Word y PDF")
-st.markdown("Sube tu plantilla y genera ambos formatos sin que se borren al descargar.")
+st.title("📄 Otrosí Autorización Habeas Data")
+st.markdown("Sube tu plantilla y genera ambos formatos: PDF y Word.")
 
 uploaded_file = st.file_uploader("Sube tu plantilla Word (.docx)", type=["docx"])
 
@@ -82,7 +82,7 @@ if uploaded_file:
     # Mostrar botones de descarga si los datos están en sesión
     if st.session_state.docx_ready and st.session_state.pdf_ready:
         st.divider()
-        st.subheader("Descargas Disponibles:")
+        st.subheader("Descargas:")
         c1, c2 = st.columns(2)
         
         c1.download_button(
