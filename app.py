@@ -2,35 +2,54 @@ import streamlit as st
 from docxtpl import DocxTemplate
 import io
 
-st.title("Generador de Documentos desde Word")
+st.set_page_config(page_title="Generador de Documentos Dinámico", layout="centered")
 
-# 1. Entrada de datos
-nombre = st.text_input("Nombre del Colaborador")
-id_colaborador = st.text_input("Cédula/ID")
+st.title("📄 Personalizador de Plantillas Word")
+st.write("Sube tu plantilla con etiquetas tipo `{{ nombre }}` y completa los datos.")
 
-if st.button("Generar Documento"):
-    # 2. Cargar la plantilla .docx
-    # Asegúrate de que 'plantilla.docx' esté en la misma carpeta
-    doc = DocxTemplate("plantilla.docx")
+# 1. Cargar la plantilla
+uploaded_file = st.file_uploader("Elige tu archivo Word (.docx)", type=["docx"])
+
+if uploaded_file:
+    # Leer la plantilla desde el archivo subido
+    doc = DocxTemplate(uploaded_file)
     
-    # 3. Definir qué reemplazar (Diccionario de contexto)
-    contexto = {
-        "nombre_colaborador": nombre,
-        "cedula": id_colaborador,
-        "fecha": "05 de febrero de 2026" # Podrías usar datetime
-    }
+    # Obtener las variables de la plantilla (opcional, pero ayuda al usuario)
+    st.info("Asegúrate de que tu Word tenga etiquetas como `{{ nombre_colaborador }}`")
     
-    # 4. Renderizar (Reemplazar las llaves por los datos)
-    doc.render(contexto)
-    
-    # 5. Guardar en memoria para descarga
-    bio = io.BytesIO()
-    doc.save(bio)
-    bio.seek(0)
-    
-    st.download_button(
-        label="Descargar Word Personalizado",
-        data=bio,
-        file_name=f"Contrato_{nombre}.docx",
-        mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-    )
+    with st.form("datos_formulario"):
+        st.subheader("Datos del Colaborador")
+        nombre = st.text_input("Nombre del Colaborador")
+        cedula = st.text_input("Cédula o ID")
+        cargo = st.text_input("Cargo")
+        
+        # Botón para procesar
+        submit = st.form_submit_button("Generar Documento")
+
+    if submit:
+        if nombre and cedula:
+            # 2. Definir el contexto para reemplazar
+            contexto = {
+                "nombre_colaborador": nombre,
+                "cedula": cedula,
+                "cargo": cargo,
+                "fecha_hoy": "05 de febrero de 2026"
+            }
+            
+            # 3. Renderizar cambios
+            doc.render(contexto)
+            
+            # 4. Guardar en memoria para descarga
+            output = io.BytesIO()
+            doc.save(output)
+            output.seek(0)
+            
+            st.success("✅ ¡Documento generado con éxito!")
+            st.download_button(
+                label="📥 Descargar archivo personalizado",
+                data=output,
+                file_name=f"Documento_{nombre}.docx",
+                mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+            )
+        else:
+            st.error("Por favor, completa al menos el nombre y la cédula.")
