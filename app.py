@@ -2,10 +2,10 @@ import streamlit as st
 from docxtpl import DocxTemplate
 import io
 
-st.set_page_config(page_title="Generador de Documentos Dinámico", layout="centered")
+st.set_page_config(page_title="Otrosí Habeas Data", layout="centered")
 
-st.title("📄 Otrosi Autorizaciòn Habeas Data")
-st.write("Sube tu plantilla con etiquetas tipo `{{ nombre }}` y completa los datos.")
+st.title("📄 Otrosí Autorización Habeas Data")
+st.write("Sube tu plantilla y completa los datos.")
 
 # 1. Cargar la plantilla
 uploaded_file = st.file_uploader("Elige tu archivo Word (.docx)", type=["docx"])
