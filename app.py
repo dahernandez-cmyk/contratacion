@@ -4,7 +4,7 @@ import io
 
 st.set_page_config(page_title="Generador de Documentos Dinámico", layout="centered")
 
-st.title("📄 Personalizador de Plantillas Word")
+st.title("📄 Otrosi Autorizaciòn Habeas Data")
 st.write("Sube tu plantilla con etiquetas tipo `{{ nombre }}` y completa los datos.")
 
 # 1. Cargar la plantilla
