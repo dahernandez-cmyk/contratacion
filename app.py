@@ -21,7 +21,7 @@ if uploaded_file:
             cedula = st.text_input("Cédula/ID")
         with col2:
             cargo = st.text_input("Cargo")
-            fecha = st.date_input("Fecha del documento")
+            fecha = st.text_input("Fecha del documento")
         
         submit = st.form_submit_button("Procesar Documento")
 
