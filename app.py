@@ -21,10 +21,8 @@ CONTRATOS = {
         "mapping": {
             "Nombre del Empleado": "nombre_colaborador",
             "Cédula": "cedula",
-            "Dirección de Residencia": "direccion_domicilio",
-            "Días en Casa": "dias_remotos",
-            "Días en Oficina": "dias_oficina",
-            "Fecha Inicio": "fecha_flexi"
+            "Cargo": "cargo",
+            "Fecha Contrato": "fecha_contrato"
         }
     },
     "Carta de Anulación de Contrato": {
