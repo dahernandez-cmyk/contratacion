@@ -4,97 +4,113 @@ import os
 import subprocess
 import tempfile
 
-st.set_page_config(page_title="Otrosí Habeas Data", page_icon="📄")
+st.set_page_config(page_title="Generador Documental", page_icon="📄")
 
-# Inicializar estados para que los botones no desaparezcan
-if 'docx_ready' not in st.session_state:
-    st.session_state.docx_ready = None
-if 'pdf_ready' not in st.session_state:
-    st.session_state.pdf_ready = None
-if 'file_name' not in st.session_state:
-    st.session_state.file_name = ""
+# --- 1. CONFIGURACIÓN MAESTRA DE CAMPOS ---
+# Cada contrato es un mundo aparte aquí.
+CONTRATOS = {
+    "Otrosí Habeas Data": {
+        "mapping": {
+            "Nombre Completo": "nombre_colaborador",
+            "Cédula": "cedula",
+            "Cargo": "cargo",
+            "Fecha de Firma": "fecha_contrato"
+        }
+    },
+    "Otrosí Flexitrabajo": {
+        "mapping": {
+            "Nombre del Empleado": "nombre_colaborador",
+            "Cédula": "cedula",
+            "Dirección de Residencia": "direccion_domicilio",
+            "Días en Casa": "dias_remotos",
+            "Días en Oficina": "dias_oficina",
+            "Fecha Inicio": "fecha_flexi"
+        }
+    },
+    "Carta de Anulación de Contrato": {
+        "mapping": {
+            "Nombre del Destinatario": "nombre_destinatario",
+            "Número de Contrato": "num_contrato",
+            "Fecha de Terminación": "fecha_fin",
+            "Motivo de Anulación": "motivo_texto",
+            "Ciudad": "ciudad_emision"
+        }
+    }
+}
 
-st.title("📄 Otrosí Autorización Habeas Data")
-st.markdown("Sube tu plantilla y genera ambos formatos: PDF y Word.")
+# --- 2. LÓGICA DE SESIÓN ---
+if 'docx_ready' not in st.session_state: st.session_state.docx_ready = None
+if 'pdf_ready' not in st.session_state: st.session_state.pdf_ready = None
 
-uploaded_file = st.file_uploader("Sube tu plantilla Word (.docx)", type=["docx"])
+st.title("📄 Generador Multicontrato")
 
-if uploaded_file:
-    with st.form("formulario_datos"):
-        col1, col2 = st.columns(2)
-        with col1:
-            nombre = st.text_input("Nombre Completo")
-            cedula = st.text_input("Cédula / ID")
-        with col2:
-            cargo = st.text_input("Cargo")
-            fecha_texto = st.text_input("Fecha (ej: 5 de febrero de 2026)")
+# --- 3. SELECCIÓN Y CARGA ---
+tipo_contrato = st.selectbox("Seleccione el documento a generar:", list(CONTRATOS.keys()))
+archivo_plantilla = st.file_uploader(f"Suba plantilla para {tipo_contrato}", type=["docx"])
+
+if archivo_plantilla:
+    # Creamos el formulario dinámico
+    with st.form("formulario_dinamico"):
+        st.subheader("Complete la información necesaria")
+        respuestas_usuario = {}
         
-        submit = st.form_submit_button("Generar Documentos")
+        # Obtenemos los campos específicos de este contrato
+        config_actual = CONTRATOS[tipo_contrato]["mapping"]
+        
+        # Generar inputs basados en las llaves del mapping
+        cols = st.columns(2)
+        for i, etiqueta_ui in enumerate(config_actual.keys()):
+            with cols[i % 2]:
+                respuestas_usuario[etiqueta_ui] = st.text_input(etiqueta_ui)
+        
+        boton_generar = st.form_submit_button("Generar Archivos")
 
-    if submit:
-        if not nombre or not fecha_texto:
-            st.error("⚠️ Nombre y Fecha son obligatorios.")
+    if boton_generar:
+        if any(not val.strip() for val in respuestas_usuario.values()):
+            st.warning("⚠️ Por favor rellene todos los campos.")
         else:
             try:
-                # 1. Procesar Word
-                doc = DocxTemplate(uploaded_file)
-                contexto = {
-                    "nombre_colaborador": nombre,
-                    "cedula": cedula,
-                    "cargo": cargo,
-                    "fecha_contrato": fecha_texto
-                }
-                doc.render(contexto)
-
-                # 2. Guardar en bytes para persistencia en sesión
-                buffer_docx = tempfile.NamedTemporaryFile(delete=False, suffix=".docx")
-                doc.save(buffer_docx.name)
+                # 4. PROCESAMIENTO
+                doc = DocxTemplate(archivo_plantilla)
                 
-                with open(buffer_docx.name, "rb") as f:
-                    st.session_state.docx_ready = f.read()
+                # Creamos el contexto final cruzando UI -> Tag de Word
+                # Ejemplo: {"nombre_colaborador": "Juan Perez", ...}
+                contexto_final = {config_actual[k]: v for k, v in respuestas_usuario.items()}
+                
+                doc.render(contexto_final)
 
-                # 3. Convertir a PDF usando LibreOffice
-                st.write("Convirtiendo a PDF...")
-                output_dir = tempfile.gettempdir()
+                # Guardado temporal
+                with tempfile.NamedTemporaryFile(delete=False, suffix=".docx") as tmp_docx:
+                    doc.save(tmp_docx.name)
+                    path_docx = tmp_docx.name
+                
+                # Conversión a PDF
+                st.info("Convertiendo...")
+                out_dir = tempfile.gettempdir()
                 subprocess.run([
                     'libreoffice', '--headless', 
                     '-env:UserInstallation=file:///tmp/libo_user_profile',
-                    '--convert-to', 'pdf', 
-                    '--outdir', output_dir, 
-                    buffer_docx.name
+                    '--convert-to', 'pdf', '--outdir', out_dir, path_docx
                 ], check=True)
 
-                pdf_path = buffer_docx.name.replace(".docx", ".pdf")
-                
-                with open(pdf_path, "rb") as f:
-                    st.session_state.pdf_ready = f.read()
-                
-                st.session_state.file_name = nombre.replace(" ", "_")
-                st.success("✅ ¡Archivos generados!")
+                path_pdf = path_docx.replace(".docx", ".pdf")
 
-                # Limpiar archivos temporales del disco
-                os.remove(buffer_docx.name)
-                os.remove(pdf_path)
+                # Guardar en sesión para descarga
+                with open(path_docx, "rb") as f: st.session_state.docx_ready = f.read()
+                with open(path_pdf, "rb") as f: st.session_state.pdf_ready = f.read()
+                
+                st.success("✅ Documentos generados.")
+                
+                # Limpiar disco
+                os.remove(path_docx)
+                os.remove(path_pdf)
 
             except Exception as e:
                 st.error(f"Error: {e}")
 
-    # Mostrar botones de descarga si los datos están en sesión
-    if st.session_state.docx_ready and st.session_state.pdf_ready:
-        st.divider()
-        st.subheader("Descargas:")
-        c1, c2 = st.columns(2)
-        
-        c1.download_button(
-            label="📥 Descargar Word",
-            data=st.session_state.docx_ready,
-            file_name=f"Contrato_{st.session_state.file_name}.docx",
-            mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-        )
-        
-        c2.download_button(
-            label="📥 Descargar PDF",
-            data=st.session_state.pdf_ready,
-            file_name=f"Contrato_{st.session_state.file_name}.pdf",
-            mime="application/pdf"
-        )
+# --- 5. DESCARGAS ---
+if st.session_state.docx_ready:
+    st.divider()
+    c1, c2 = st.columns(2)
+    c1.download_button("📥 Descargar Word", st.session_state.docx_ready, "documento.docx")
+    c2.download_button("📥 Descargar PDF", st.session_state.pdf_ready, "documento.pdf")
