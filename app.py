@@ -144,6 +144,7 @@ CONTRATOS = {
             "Nombre Completo": "Nombre",
             "Cédula": "cedula",
             "Cargo": "Cargo",
+            "Fecha de Ingreso": "Fecha_de_ingreso",
             "Valor Auxilio Alimentación": "Valor_numero_A",
             "Valor Auxilio Desplazamiento": "Valor_numero_D",
             "Valor Auxilio Vivienda": "Valor_numero_V",
