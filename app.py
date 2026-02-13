@@ -115,6 +115,8 @@ CONTRATOS = {
             "Nombre Completo": "Nombre",
             "Cédula": "cedula",
             "Dirección": "Dirreccion_Colaborador",
+            "Contacto de Emergencia 1":"Nombre_contacto_emergencia",
+            "Contacto de Emergencia 2":"Nombre_contacto_emergencia2",
             "Correo": "Correo",
             "Celular":"Celular_colaborador",
             "Cargo": "Cargo",
@@ -127,7 +129,8 @@ CONTRATOS = {
             "ARL":"ARL",
             "EPS":"EPS",
             "AFC":"AFC",
-            "AFP":"AFP"
+            "AFP":"AFP",
+            "Caja de Compensación":"Caja_de_compensacion"
         }
     },
     "Otrosi Auxilio de desplazamiento": {
