@@ -25,13 +25,22 @@ CONTRATOS = {
             "Fecha Contrato": "fecha_contrato"
         }
     },
-    "Carta de Anulación de Contrato": {
+    "Contrato a término fijo": {
         "mapping": {
-            "Nombre del Destinatario": "nombre_destinatario",
-            "Número de Contrato": "num_contrato",
-            "Fecha de Terminación": "fecha_fin",
-            "Motivo de Anulación": "motivo_texto",
-            "Ciudad": "ciudad_emision"
+            "Nombre Completo": "Nombre",
+            "Cédula": "cedula",
+            "Dirección": "Dirreccion Colaborador",
+            "Correo": "Correo",
+            "Lugar y Fecha de Nacimiento": "lugar y fecha de nacimiento",
+            "Celular":"Celular colaborador",
+            "Cargo": "Cargo",
+            "Salario Letra": "Salario Letra",
+            "Salario Número": "Salario numero",
+            "Fecha de Ingreso": "Fecha de ingreso",
+            "Ciudad": "Ciudad",
+            "Dureción": "Duracion",
+            "Vencimiento": "Vencimiento"
+
         }
     }
 }
