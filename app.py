@@ -42,6 +42,23 @@ CONTRATOS = {
             "Vencimiento": "Vencimiento"
 
         }
+    },
+    "Contrato a término fijo inferior a 1 año": {
+        "mapping": {
+            "Nombre Completo": "Nombre",
+            "Cédula": "cedula",
+            "Dirección": "Dirreccion_Colaborador",
+            "Correo": "Correo",
+            "Lugar y Fecha de Nacimiento": "lugar_y_fecha_de_nacimiento",
+            "Celular":"Celular_colaborador",
+            "Cargo": "Cargo",
+            "Salario Letra": "Salario_Letra",
+            "Salario Número": "Salario_numero",
+            "Fecha de Ingreso": "Fecha_de_ingreso",
+            "Ciudad": "Ciudad",
+            "Duración": "Duracion",
+            "Vencimiento": "Vencimiento"
+        }
     }
 }
 
