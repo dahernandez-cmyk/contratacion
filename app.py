@@ -165,6 +165,16 @@ CONTRATOS = {
             "Nombre de la obra":"Nombre_de_la_obra"
 
         }
+    },
+    "Plantilla entrega dotación operativa": {
+        "mapping": {
+            "Nombre Completo": "Nombre",
+            "Cédula": "cedula",
+            "Cargo": "Cargo",
+            "Obra":"Obra",
+            "Fecha de Ingreso": "Fecha_de_ingreso"
+
+        }
     }
 }
 
