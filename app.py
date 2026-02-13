@@ -109,6 +109,22 @@ CONTRATOS = {
             "Fecha de Ingreso": "Fecha_de_ingreso",
             "Ciudad": "Ciudad"
         }
+    },
+    "Ficha de ingreso": {
+        "mapping": {
+            "Nombre Completo": "Nombre",
+            "Cédula": "cedula",
+            "Dirección": "Dirreccion_Colaborador",
+            "Correo": "Correo",
+            "Celular":"Celular_colaborador",
+            "Cargo": "Cargo",
+            "Líder":"Lider",
+            "Centro de Costo":"CECO",
+            "Fecha de Ingreso": "Fecha_de_ingreso",
+            "Fecha de Terminación Curso":"Fecha_de_terminacion_cuso",
+            "Fecha Ingreso a la obra":"Fecha_de_ingreso_a_obra",
+            "ARL":"ARL"
+        }
     }
 }
 
