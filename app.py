@@ -175,7 +175,8 @@ CONTRATOS = {
             "Cédula": "cedula",
             "Cargo": "Cargo",
             "Obra":"Obra",
-            "Fecha de Ingreso": "Fecha_de_ingreso"
+            "Fecha de Ingreso": "Fecha_de_ingreso",
+            "Ciudad": "Ciudad"
 
         }
     }
