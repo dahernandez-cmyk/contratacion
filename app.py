@@ -162,6 +162,7 @@ CONTRATOS = {
             "Prima Zonal Letra": "Valor_letra",
             "Fecha Firma":"Fecha_firma",
             "Fecha de Ingreso": "Fecha_de_ingreso",
+            "Nombre de la obra":"Nombre_de_la_obra"
 
         }
     }
