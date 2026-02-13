@@ -152,6 +152,18 @@ CONTRATOS = {
             "Fecha Firma":"Fecha_firma"
 
         }
+    },
+    "Otrosi Prima Zonal": {
+        "mapping": {
+            "Nombre Completo": "Nombre",
+            "Cédula": "cedula",
+            "Cargo": "Cargo",
+            "Prima Zonal Valor": "Valor_numero",
+            "Prima Zonal Letra": "Valor_letra",
+            "Fecha Firma":"Fecha_firma",
+            "Fecha de Ingreso": "Fecha_de_ingreso",
+
+        }
     }
 }
 
