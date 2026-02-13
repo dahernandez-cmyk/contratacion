@@ -138,6 +138,19 @@ CONTRATOS = {
             "Auxilio Número": "Aux_numero"
 
         }
+    },
+    "Otrosi Auxilios Varios": {
+        "mapping": {
+            "Nombre Completo": "Nombre",
+            "Cédula": "cedula",
+            "Cargo": "Cargo",
+            "Valor Auxilio Alimentación": "Valor_numero_A",
+            "Valor Auxilio Desplazamiento": "Valor_numero_D",
+            "Valor Auxilio Vivienda": "Valor_numero_V",
+            "Obra":"Obra",
+            "Fecha Firma":"Fecha_firma"
+
+        }
     }
 }
 
