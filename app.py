@@ -29,16 +29,16 @@ CONTRATOS = {
         "mapping": {
             "Nombre Completo": "Nombre",
             "Cédula": "cedula",
-            "Dirección": "Dirreccion Colaborador",
+            "Dirección": "Dirreccion_Colaborador",
             "Correo": "Correo",
-            "Lugar y Fecha de Nacimiento": "lugar y fecha de nacimiento",
-            "Celular":"Celular colaborador",
+            "Lugar y Fecha de Nacimiento": "lugar_y_fecha_de_nacimiento",
+            "Celular":"Celular_colaborador",
             "Cargo": "Cargo",
-            "Salario Letra": "Salario Letra",
-            "Salario Número": "Salario numero",
-            "Fecha de Ingreso": "Fecha de ingreso",
+            "Salario Letra": "Salario_Letra",
+            "Salario Número": "Salario_numero",
+            "Fecha de Ingreso": "Fecha_de_ingreso",
             "Ciudad": "Ciudad",
-            "Dureción": "Duracion",
+            "Duración": "Duracion",
             "Vencimiento": "Vencimiento"
 
         }
