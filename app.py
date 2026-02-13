@@ -59,6 +59,24 @@ CONTRATOS = {
             "Duración": "Duracion",
             "Vencimiento": "Vencimiento"
         }
+    },
+    "Contrato de obra o labor": {
+        "mapping": {
+            "Nombre Completo": "Nombre",
+            "Cédula": "cedula",
+            "Dirección": "Dirreccion_Colaborador",
+            "Correo": "Correo",
+            "Lugar y Fecha de Nacimiento": "lugar_y_fecha_de_nacimiento",
+            "Celular":"Celular_colaborador",
+            "Cargo": "Cargo",
+            "Salario Letra": "Salario_Letra",
+            "Salario Número": "Salario_numero",
+            "Fecha de Ingreso": "Fecha_de_ingreso",
+            "Periodo de Prueba":"Periodo_de_Prrueba",
+            "Ciudad": "Ciudad",
+            "Porcentaje de Actividad": "porcentaje_de_actividad",
+            "Detalle y Porcentaje de Obra": "Detalle_y_porcentaje_de_obra"
+        }
     }
 }
 
