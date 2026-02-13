@@ -126,6 +126,18 @@ CONTRATOS = {
             "Fecha Ingreso a la obra":"Fecha_de_ingreso_a_obra",
             "ARL":"ARL"
         }
+    },
+    "Otrosi Auxilio de desplazamiento": {
+        "mapping": {
+            "Nombre Completo": "Nombre",
+            "Cédula": "cedula",
+            "Cargo": "Cargo",
+            "Fecha de Ingreso": "Fecha_de_ingreso",
+            "Fecha Auxilio": "Fecha_Aux",
+            "Auxilio Letra":"Aux_Letra",
+            "Auxilio Número": "Aux_numero"
+
+        }
     }
 }
 
