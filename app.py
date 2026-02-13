@@ -120,6 +120,7 @@ CONTRATOS = {
             "Cargo": "Cargo",
             "Líder":"Lider",
             "Centro de Costo":"CECO",
+            "Detalle y Porcentaje de Obra":"Detalle_y_porcentaje_de_obra"
             "Fecha de Ingreso": "Fecha_de_ingreso",
             "Fecha de Terminación Curso":"Fecha_de_terminacion_cuso",
             "Fecha Ingreso a la obra":"Fecha_de_ingreso_a_obra",
