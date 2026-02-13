@@ -124,7 +124,10 @@ CONTRATOS = {
             "Fecha de Ingreso": "Fecha_de_ingreso",
             "Fecha de Terminación Curso":"Fecha_de_terminacion_cuso",
             "Fecha Ingreso a la obra":"Fecha_de_ingreso_a_obra",
-            "ARL":"ARL"
+            "ARL":"ARL",
+            "EPS":"EPS",
+            "AFC":"AFC",
+            "AFP":"AFP"
         }
     },
     "Otrosi Auxilio de desplazamiento": {
