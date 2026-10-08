@@ -189,7 +189,7 @@ CONTRATOS = {
 if 'docx_ready' not in st.session_state: st.session_state.docx_ready = None
 if 'pdf_ready' not in st.session_state: st.session_state.pdf_ready = None
 
-st.title("📄 Generador Multicontrato")
+st.title("📄 Generador Multicontratoooo")
 
 # --- 3. SELECCIÓN Y CARGA ---
 tipo_contrato = st.selectbox("Seleccione el documento a generar:", list(CONTRATOS.keys()))
