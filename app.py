@@ -184,7 +184,7 @@ CONTRATOS = {
 if 'zip_ready' not in st.session_state: 
     st.session_state.zip_ready = None
 
-st.title("📄 Generador Multicontrato (Múltiples Documentos)")
+st.title("📄 Generador Multicontrato")
 
 # --- 3. SELECCIÓN DE CONTRATOS Y PLANTILLAS ---
 contratos_seleccionados = st.multiselect(
